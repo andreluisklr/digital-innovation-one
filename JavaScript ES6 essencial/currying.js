@@ -29,7 +29,7 @@ function multiplique(numero1){
 
 //Uma forma de utilizar a função
 console.log('2x2',multiplique(2)(2))
-console.log('2x2',multiplique(10)(2))
+console.log('10x2',multiplique(10)(2))
 
 
 console.log('----------------------------------------')
