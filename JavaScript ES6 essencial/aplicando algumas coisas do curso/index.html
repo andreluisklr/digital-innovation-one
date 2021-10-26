@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observer</title>
+
+    <style>
+        *{
+            margin : 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            padding: 50px;
+            background-color: #353b48;
+        }
+		
+		.wrapper{
+			margin: auto;
+			width : 50%;
+			border: 1px solid black;
+		}
+
+        .input{
+            width : 100%;
+			height: 25px;
+            margin-bottom:10px;
+			padding-left : 2px;
+        }
+
+        .bloco{
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            color: rgb(199, 187, 174);
+            background-color: #2f3640;
+        }
+
+        .bloco .paragrafo{
+            margin-bottom: 5px;
+    
+        }
+        
+    </style>
+</head>
+<body>
+	<div class="wrapper">
+		
+		<input class="input" type="text">
+
+		<div class="bloco">
+			<p id="p1" class="paragrafo"></p>
+			<button class="inscrever">inscrever</button>
+			<button class="desinscrever">desinscrever</button>
+		</div>
+
+		<div class="bloco">
+			<p id="p2" class="paragrafo"></p>
+			<button class="inscrever">inscrever</button>
+			<button class="desinscrever">desinscrever</button>
+		</div>
+	</div>
+	
+    <script>
+        const input = document.querySelector('.input');
+        const paragrafo1 = document.querySelector('#p1');
+        const paragrafo2 = document.querySelector('#p2');
+        const inscrever = document.querySelectorAll('.inscrever');
+        const desinscrever = document.querySelectorAll('.desinscrever');
+        
+        paragrafo1.update = function(valor){
+            paragrafo1.textContent = valor;
+        }
+
+        paragrafo2.update = function(valor){
+            paragrafo2.textContent = valor;
+        }
+		
+        class Observador{
+            constructor(){
+                this.observers = [];
+            }
+
+            add(observer){
+                let jaCadastrado = this.observers.includes(observer);
+                
+                if(!jaCadastrado){
+                    this.observers.push(observer);
+                }
+            }
+
+            del(observer){
+               this.observers =  this.observers.filter((item, index, array) => {
+                    return item !== observer;
+                })
+            }
+
+            notify(valor){
+                this.observers.forEach((item, index, array) => {
+                    item(valor);
+                })
+            }
+        }
+
+       
+        document.addEventListener('click', (event) => {
+            if(event.target.textContent === 'inscrever'){
+                let paragrafo = event.target.parentElement.firstElementChild;
+                observer.add(paragrafo.update)
+            } 
+
+            if(event.target.textContent === 'desinscrever'){
+                let paragrafo = event.target.parentElement.firstElementChild;
+                observer.del(paragrafo.update)
+            }
+        })
+
+        let observer = new Observador();
+      
+        input.addEventListener('input', (event) => {
+            observer.notify(event.target.value);
+        })
+
+    </script>
+</body>
+</html>
