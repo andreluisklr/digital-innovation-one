@@ -22,12 +22,12 @@ console.log('\n********** EXEMPLO 2 **********')
 let iterator = {
 	values: [1, 10, 20, 30,'a'],
 	[Symbol.iterator](){
-		let i = -1;
+		let i = 0;
 
 		return {
 			next: () => {
 				i++;
-				return {value: this.values[i], done: i == this.values.length}
+				return {value: this.values[i - 1], done: i > this.values.length}
 			} 
 		}
 	}
@@ -41,7 +41,6 @@ for(let value of iterator){
 
 console.log('\nspread operator: ')
 console.log(...iterator)
-
 
 
 
